@@ -24,7 +24,6 @@ public class Grupo implements Serializable {
 	private String nome;
 	private String descricao;
 	private List<Permissao> permissoes;
-	
 
 	@Id
 	@GeneratedValue
@@ -36,7 +35,7 @@ public class Grupo implements Serializable {
 		this.id = id;
 	}
 
-	//@NotNull
+	// @NotNull
 	@Column(nullable = false, length = 40)
 	public String getNome() {
 		return nome;
@@ -61,11 +60,11 @@ public class Grupo implements Serializable {
 	public List<Permissao> getPermissoes() {
 		return permissoes;
 	}
-	
+
 	public void setPermissoes(List<Permissao> permissoes) {
 		this.permissoes = permissoes;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

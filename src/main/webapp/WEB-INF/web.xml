@@ -17,6 +17,12 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>delta</param-value>
 	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+		<param-value>0</param-value> <!-- cache desligado -->
+	</context-param>
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

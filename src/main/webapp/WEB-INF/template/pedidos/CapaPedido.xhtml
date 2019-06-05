@@ -6,79 +6,78 @@
 	xmlns:o="http://omnifaces.org/ui">
 
 
-	<h:form>
+	<f:metadata>
+		<f:event listener="#{cadastroPedidoBean.inicializar}"
+			type="preRenderView" />
+	</f:metadata>
 
-		<f:metadata>
-			<f:event listener="#{cadastroPedidoBean.inicializar}"
-				type="preRenderView" />
-		</f:metadata>
+	<p:panelGrid columns="4" style="margin-top: 20px; width: 100%"
+		columnClasses="rotulo, campo, rotulo campo">
+		<p:outputLabel value="Número" for="numero"
+			rendered="#{cadastroPedidoBean.pedido.existente}" />
+		<h:outputText id="numero" value="#{cadastroPedidoBean.pedido.id}"
+			rendered="#{cadastroPedidoBean.pedido.existente}" />
 
-		<p:panelGrid columns="4" style="margin-top: 20px; width: 100%"
-			columnClasses="rotulo, campo, rotulo campo">
-			<p:outputLabel value="Número" for="numero"
-				rendered="#{cadastroPedidoBean.pedido.existente}" />
-			<h:outputText id="numero" value="#{cadastroPedidoBean.pedido.id}"
-				rendered="#{cadastroPedidoBean.pedido.existente}" />
+		<p:outputLabel value="Data de criação" for="dataCriacao"
+			rendered="#{cadastroPedidoBean.pedido.existente}" />
+		<h:outputText id="dataCriacao"
+			value="#{cadastroPedidoBean.pedido.dataCriacao}"
+			rendered="#{cadastroPedidoBean.pedido.existente}">
+			<f:convertDateTime pattern="dd/MM/yyyy" />
+		</h:outputText>
 
-			<p:outputLabel value="Data de criação" for="dataCriacao"
-				rendered="#{cadastroPedidoBean.pedido.existente}" />
-			<h:outputText id="dataCriacao"
-				value="#{cadastroPedidoBean.pedido.dataCriacao}"
-				rendered="#{cadastroPedidoBean.pedido.existente}">
-				<f:convertDateTime pattern="dd/MM/yyyy" />
-			</h:outputText>
+		<p:outputLabel value="Status" for="status" />
+		<h:outputText id="status"
+			value="#{cadastroPedidoBean.pedido.statusPedido.descricao}" />
 
-			<p:outputLabel value="Status" for="status" />
-			<h:outputText id="status"
-				value="#{cadastroPedidoBean.pedido.statusPedido.descricao}" />
+		<p:outputLabel value="Vendedor" for="vendedor" />
+		<p:selectOneMenu id="vendedor"
+			value="#{cadastroPedidoBean.pedido.vendedor}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItems value="#{cadastroPedidoBean.vendedores}"
+				var="vendedor" itemLabel="#{vendedor.nome}" itemValue="#{vendedor}" />
+		</p:selectOneMenu>
 
-			<p:outputLabel value="Vendedor" for="vendedor" />
-			<p:selectOneMenu id="vendedor"
-				value="#{cadastroPedidoBean.pedido.vendedor}">
-				<f:selectItem itemLabel="Selecione" />
-				<f:selectItems value="#{cadastroPedidoBean.vendedores}"
-					var="vendedor" itemLabel="#{vendedor.nome}" itemValue="#{vendedor}" />
-			</p:selectOneMenu>
+		<p:outputLabel value="Cliente" for="cliente" />
+		<p:autoComplete id="cliente" size="40" dropdown="true"
+			value="#{cadastroPedidoBean.pedido.cliente}"
+			completeMethod="#{cadastroPedidoBean.completarCliente}" var="cliente"
+			itemLabel="#{cliente.nome} #{cliente.tipo}" itemValue="#{cliente}"
+			forceSelection="true" />
 
-			<p:outputLabel value="Cliente" for="cliente" />
-			<p:autoComplete id="cliente" size="40" dropdown="true"
-				value="#{cadastroPedidoBean.pedido.cliente}"
-				completeMethod="#{cadastroPedidoBean.completarCliente}"
-				var="cliente" itemLabel="#{cliente.nome} #{cliente.tipo}" itemValue="#{cliente}"
-				forceSelection="true" />
+		<p:outputLabel value="Forma de pagamento" for="formaPagamento" />
+		<p:selectOneMenu id="formaPagamento"
+			value="#{cadastroPedidoBean.pedido.formaPagamento}">
+			<f:selectItem itemLabel="Selecione" />
+			<f:selectItems value="#{cadastroPedidoBean.formasPagamento}"
+				var="formaPag" itemLabel="#{formaPag.descricao}"
+				itemValue="#{formaPag}" />
+		</p:selectOneMenu>
 
-			<p:outputLabel value="Forma de pagamento" for="formaPagamento" />
-			<p:selectOneMenu id="formaPagamento"
-				value="#{cadastroPedidoBean.pedido.formaPagamento}">
-				<f:selectItem itemLabel="Selecione" />
-				<f:selectItems value="#{cadastroPedidoBean.formasPagamento}"
-					var="formaPag" itemLabel="#{formaPag.descricao}"
-					itemValue="#{formaPag}" />
-			</p:selectOneMenu>
+		<p:outputLabel value="Valor do frete" for="valorFrete" />
+		<p:inputText id="valorFrete"
+			value="#{cadastroPedidoBean.pedido.valorFrete}" styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
 
-			<p:outputLabel value="Valor do frete" for="valorFrete" />
-			<p:inputText id="valorFrete"
-				value="#{cadastroPedidoBean.pedido.valorFrete}" />
+		<p:outputLabel value="Subtotal" for="subtotal"
+			style="font-weight: bold" />
+		<h:outputText id="subtotal" value="R$ 0,00" style="font-weight: bold" />
 
-			<p:outputLabel value="Subtotal" for="subtotal"
-				style="font-weight: bold" />
-			<h:outputText id="subtotal" value="R$ 0,00" style="font-weight: bold" />
+		<p:outputLabel value="Valor de desconto" for="valorDesconto" />
+		<p:inputText id="valorDesconto" size="10" maxlength="10"
+			styleClass="moeda" value="#{cadastroPedidoBean.pedido.valorDesconto}">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
 
-			<p:outputLabel value="Valor de desconto" for="valorDesconto" />
-			<p:inputText id="valorDesconto" size="10" maxlength="10"
-				value="#{cadastroPedidoBean.pedido.valorDesconto}">
-				<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-			</p:inputText>
+		<p:outputLabel value="Total do pedido" for="totalPedido"
+			style="font-weight: bold; font-size: 1.1em" />
+		<h:outputText id="totalPedido"
+			style="font-weight: bold; font-size: 1.1em"
+			value="#{cadastroPedidoBean.pedido.valorTotal}">
 
-			<p:outputLabel value="Total do pedido" for="totalPedido"
-				style="font-weight: bold; font-size: 1.1em" />
-			<h:outputText id="totalPedido"
-				style="font-weight: bold; font-size: 1.1em"
-				value="#{cadastroPedidoBean.pedido.valorTotal}">
-
-				<f:convertNumber type="currency" />
-			</h:outputText>
-		</p:panelGrid>
-	</h:form>
+			<f:convertNumber type="currency" />
+		</h:outputText>
+	</p:panelGrid>
 
 </ui:composition>

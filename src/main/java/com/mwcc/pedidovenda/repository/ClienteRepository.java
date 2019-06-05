@@ -56,13 +56,14 @@ public class ClienteRepository implements Serializable {
 		}
 	}
 
+	//@SuppressWarnings({ "deprecation", "unchecked" })
 	public List<Cliente> porNome(String nome) {
 		/*return this.manager.createQuery("From Cliente" + "where upper(nome) like :nome", Cliente.class)
 				.setParameter("nome", nome.toUpperCase() + "%").getResultList();*/
 		
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Cliente.class);
 		
+		Criteria criteria = session.createCriteria(Cliente.class);
 		if(StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
 		}

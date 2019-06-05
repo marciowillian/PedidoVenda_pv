@@ -5,6 +5,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
+	<f:metadata>
+		<f:event listener="#{cadastroPedidoBean.inicializar}" type="preRenderView"></f:event>
+	</f:metadata>
+
 	<ui:define name="titulo">Novo pedido</ui:define>
 
 	<ui:define name="corpo">
@@ -24,7 +28,7 @@
 
 				<p:tab title="Dados de entrega">
 					<ui:include
-						src="/WEB-INF/template/pedidos/DadosEntragaPedido.xhtml" />
+						src="/WEB-INF/template/pedidos/DadosEntregaPedido.xhtml" />
 				</p:tab>
 
 				<p:tab title="Observações">
@@ -33,6 +37,5 @@
 			</p:tabView>
 		</h:form>
 	</ui:define>
-
 
 </ui:composition>

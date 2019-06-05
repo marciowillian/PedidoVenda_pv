@@ -5,41 +5,44 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-	<h:form>
-		<p:dataTable value="#{cadastroPedidoBean.listaInteiro}" var="item"
-			style="width: 100%" emptyMessage="Nenhum pedido encontrado">
-			<p:column headerText="SKU" style="text-align: center; width: 100px">
-				<p:inputText size="8" />
-			</p:column>
+	<p:dataTable value="#{cadastroPedidoBean.listaInteiro}" var="item"
+		style="width: 100%" emptyMessage="Nenhum pedido encontrado">
+		<p:column headerText="SKU" style="text-align: center; width: 100px">
+			<p:inputText size="8" />
+		</p:column>
 
-			<p:column headerText="Produto" styleClass="produto-tabela">
-				<p:inputText />
-			</p:column>
+		<p:column headerText="Produto" styleClass="produto-tabela">
+			<p:inputText />
+		</p:column>
 
-			<p:column headerText="Valor unitário" style="text-align: right; width: 120px">
-				<h:outputText value="R$ 0,00" />
-			</p:column>
+		<p:column headerText="Valor unitário"
+			style="text-align: right; width: 120px">
+			<h:outputText value="R$ 0,00" />
+		</p:column>
 
-			<p:column headerText="Quantidade" style="text-align: center; width: 100px">
-				<p:inputText style="width: 90px"/>
-			</p:column>
+		<p:column headerText="Quantidade"
+			style="text-align: center; width: 100px">
+			<p:inputText style="width: 90px" />
+		</p:column>
 
-			<p:column headerText="Estoque" style="text-align: center; width: 100px">
-				<h:outputText value="0" />
-			</p:column>
+		<p:column headerText="Estoque"
+			style="text-align: center; width: 100px">
+			<h:outputText value="0" />
+		</p:column>
 
-			<p:column headerText="Valor total" style="text-align: right; width: 100px">
-				<h:outputText value="R$ 0,00" />
-			</p:column>
-			
-			<p:columnGroup type="footer">
-				<p:row>
-					<p:column colspan="5" footerText="Subtotal" style="text-align: right"/>
-					
-					<p:column footerText="R$ 0,00" style="text-align: right" />
-				</p:row>
-			</p:columnGroup>
-		</p:dataTable>
-	</h:form>
+		<p:column headerText="Valor total"
+			style="text-align: right; width: 100px">
+			<h:outputText value="R$ 0,00" />
+		</p:column>
+
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText="Subtotal"
+					style="text-align: right" />
+
+				<p:column footerText="R$ 0,00" style="text-align: right" />
+			</p:row>
+		</p:columnGroup>
+	</p:dataTable>
 
 </ui:composition>
