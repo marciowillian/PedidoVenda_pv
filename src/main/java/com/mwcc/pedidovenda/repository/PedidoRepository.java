@@ -30,15 +30,11 @@ public class PedidoRepository implements Serializable {
 	private EntityManager manager;
 
 	public Pedido guardar(Pedido pedido) {
-		
-		try {
-			this.manager.merge(pedido);
-			manager.flush();
-		} catch (PersistenceException e) {
-			throw new NegocioException("Não foi possivel salvar o pedido.");
-		}
-		
-		return pedido;
+		return this.manager.merge(pedido);
+	}
+	
+	public Pedido porId(Long id) {
+		return manager.find(Pedido.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
