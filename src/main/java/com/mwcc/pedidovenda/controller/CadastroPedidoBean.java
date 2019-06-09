@@ -56,28 +56,36 @@ public class CadastroPedidoBean implements Serializable {
 	public void inicializar() {
 		if (FacesUtil.isNotPostback()) {
 			this.vendedores = usuarioReporitory.vendedores();
+
+			this.recalcularPedido();
 		}
 	}
 
-	public List<Cliente> completarCliente(String nome){
+	public List<Cliente> completarCliente(String nome) {
 		return clienteRepository.porNome(nome);
-		
+
 	}
-	
-	public FormaPagamento[] getFormasPagamento(){
+
+	public void recalcularPedido() {
+		if (this.pedido != null) {
+			this.pedido.recalcularValorTotal();
+		}
+	}
+
+	public FormaPagamento[] getFormasPagamento() {
 		return FormaPagamento.values();
 	}
-	
+
 	public void salvar() {
 		this.pedido = this.cadastroPedidoService.salvar(this.pedido);
-		
+
 		FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
 	}
 
 	public boolean isEditando() {
 		return pedido.getId() != null;
 	}
-	
+
 	public List<Usuario> getVendedores() {
 		return vendedores;
 	}

@@ -183,12 +183,12 @@ public class Pedido implements Serializable {
 	public boolean isNovo() {
 		return getId() == null;
 	}
-	
+
 	@Transient
 	public boolean isExistente() {
 		return !isNovo();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -214,4 +214,22 @@ public class Pedido implements Serializable {
 		return true;
 	}
 
+	@Transient
+	public BigDecimal getValorSubtotal() {
+		return this.getValorTotal().subtract(this.getValorFrete()).add(this.getValorDesconto());
+	}
+	
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+
+		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
+
+		for (ItemPedido item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+
+		this.setValorTotal(total);
+	}
 }
