@@ -12,9 +12,12 @@ import javax.inject.Named;
 import com.mwcc.pedidovenda.model.Cliente;
 import com.mwcc.pedidovenda.model.EnderecoEntrega;
 import com.mwcc.pedidovenda.model.FormaPagamento;
+import com.mwcc.pedidovenda.model.ItemPedido;
 import com.mwcc.pedidovenda.model.Pedido;
+import com.mwcc.pedidovenda.model.Produto;
 import com.mwcc.pedidovenda.model.Usuario;
 import com.mwcc.pedidovenda.repository.ClienteRepository;
+import com.mwcc.pedidovenda.repository.ProdutoRepository;
 import com.mwcc.pedidovenda.repository.UsuarioReporitory;
 import com.mwcc.pedidovenda.service.CadastroPedidoService;
 import com.mwcc.pedidovenda.util.jsf.FacesUtil;
@@ -31,11 +34,14 @@ public class CadastroPedidoBean implements Serializable {
 	private List<Usuario> vendedores;
 
 	private Pedido pedido;
+	private Produto produtoLinhaEditavel;
 
 	@Inject
 	private UsuarioReporitory usuarioReporitory;
 	@Inject
 	private ClienteRepository clienteRepository;
+	@Inject
+	private ProdutoRepository produtoRepository;
 	@Inject
 	private CadastroPedidoService cadastroPedidoService;
 
@@ -57,13 +63,32 @@ public class CadastroPedidoBean implements Serializable {
 		if (FacesUtil.isNotPostback()) {
 			this.vendedores = usuarioReporitory.vendedores();
 
+			//this.pedido.adicionarItemVazio();
+
 			this.recalcularPedido();
 		}
 	}
 
+	public void carregarProdutoLinhaEditavel() {
+		ItemPedido itemPedido = this.pedido.getItens().get(0);
+		
+		if(this.produtoLinhaEditavel != null) {
+			itemPedido.setProduto(this.produtoLinhaEditavel);
+			itemPedido.setValorUnitario(this.produtoLinhaEditavel.getValorUnitario());
+			
+			this.pedido.adicionarItemVazio();
+			this.produtoLinhaEditavel = null;
+			this.pedido.recalcularValorTotal();
+		}
+	}
+	
 	public List<Cliente> completarCliente(String nome) {
 		return clienteRepository.porNome(nome);
 
+	}
+	
+	public List<Produto> completarProduto(String nome){
+		return this.produtoRepository.porNome(nome);
 	}
 
 	public void recalcularPedido() {
@@ -100,6 +125,14 @@ public class CadastroPedidoBean implements Serializable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public Produto getProdutoLinhaEditavel() {
+		return produtoLinhaEditavel;
+	}
+
+	public void setProdutoLinhaEditavel(Produto produtoLinhaEditavel) {
+		this.produtoLinhaEditavel = produtoLinhaEditavel;
 	}
 
 }

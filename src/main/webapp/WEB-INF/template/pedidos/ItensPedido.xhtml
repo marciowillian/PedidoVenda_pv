@@ -5,14 +5,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-	<p:dataTable value="#{cadastroPedidoBean.listaInteiro}" var="item"
-		style="width: 100%" emptyMessage="Nenhum pedido encontrado">
+	<p:dataTable value="#{cadastroPedidoBean.pedido.itens}" var="item"
+		id="tabelaItens" style="width: 100%"
+		emptyMessage="Nenhum pedido encontrado">
 		<p:column headerText="SKU" style="text-align: center; width: 100px">
 			<p:inputText size="8" />
 		</p:column>
 
-		<p:column headerText="Produto" styleClass="produto-tabela">
-			<p:inputText />
+		<p:column headerText="Produto">
+			<p:autoComplete styleClass="produto-tabela" style="width: 100%"
+				value="#{cadastroPedidoBean.produtoLinhaEditavel}"
+				completeMethod="#{cadastroPedidoBean.completarProduto}"
+				var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}"
+				forceSelection="true">
+
+				<p:ajax event="itemSelect"
+					update="tabelaItens :frmCadastro:totalPedido :frmCadastro:subtotal"
+					listener="#{cadastroPedidoBean.carregarProdutoLinhaEditavel}" />
+			</p:autoComplete>
 		</p:column>
 
 		<p:column headerText="Valor unitário"
@@ -22,12 +32,12 @@
 
 		<p:column headerText="Quantidade"
 			style="text-align: center; width: 100px">
-			<p:inputText style="width: 90px" />
+			<p:inputText style="width: 90px" value="#{item.quantidade}"/>
 		</p:column>
 
 		<p:column headerText="Estoque"
 			style="text-align: center; width: 100px">
-			<h:outputText value="0" />
+			<h:outputText value="#{item.produto.quantidadeEstoque}" />
 		</p:column>
 
 		<p:column headerText="Valor total"

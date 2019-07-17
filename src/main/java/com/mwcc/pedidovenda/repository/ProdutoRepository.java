@@ -83,4 +83,24 @@ public class ProdutoRepository implements Serializable {
 		return manager.find(Produto.class, id);
 	}
 
+	public List<Produto> porNome(String nome) {
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Produto.class);
+		
+		if(StringUtils.isNotBlank(nome)) {
+			criteria.add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE));
+		}
+		
+		return criteria.addOrder(Order.asc("nome")).list();
+	}
+	
+	/*O metódo de busca não está funcionado por conta da versão,
+	 *  necessário consultar documentação caso deseje utilizar consulta JPQL
+	 */
+	
+	/*public List<Produto> porNome(String nome) {
+		return this.manager.createQuery("From produto where upper(nome) like :nome", Produto.class)
+				.setParameter("nome", nome.toUpperCase() + "%").getResultList();
+	}*/
+
 }

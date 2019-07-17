@@ -232,4 +232,23 @@ public class Pedido implements Serializable {
 
 		this.setValorTotal(total);
 	}
+
+	public void adicionarItemVazio() {
+		if(this.isOrcamento()) {
+			Produto produto = new Produto();
+			produto.setQuantidadeEstoque(1);
+			
+			ItemPedido itemPedido = new ItemPedido();
+			itemPedido.setProduto(produto);
+			itemPedido.setPedido(this);
+			
+			this.getItens().add(0, itemPedido);
+		}
+		
+	}
+	
+	@Transient
+	public boolean isOrcamento() {
+		return StatusPedido.ORCAMENTO.equals(this.getStatusPedido());
+	}
 }
