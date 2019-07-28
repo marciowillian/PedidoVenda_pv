@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -170,7 +171,7 @@ public class Pedido implements Serializable {
 		this.enderecoEntrega = enderecoEntrega;
 	}
 
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<ItemPedido> getItens() {
 		return itens;
 	}
@@ -236,13 +237,12 @@ public class Pedido implements Serializable {
 	public void adicionarItemVazio() {
 		if(this.isOrcamento()) {
 			Produto produto = new Produto();
-			produto.setQuantidadeEstoque(1);
 			
-			ItemPedido itemPedido = new ItemPedido();
-			itemPedido.setProduto(produto);
-			itemPedido.setPedido(this);
+			ItemPedido item = new ItemPedido();
+			item.setProduto(produto);
+			item.setPedido(this);
 			
-			this.getItens().add(0, itemPedido);
+			this.getItens().add(0, item);
 		}
 		
 	}
@@ -250,5 +250,20 @@ public class Pedido implements Serializable {
 	@Transient
 	public boolean isOrcamento() {
 		return StatusPedido.ORCAMENTO.equals(this.getStatusPedido());
+	}
+
+	public void removerItemVazio() {
+		ItemPedido primeiroItem = this.getItens().get(0);
+		
+		if(primeiroItem != null && primeiroItem.getProduto().getId() == null) {
+			this.getItens().remove(0);
+		}
+		
+	}
+
+	@Transient
+	public boolean isValorTotalNegativo() {
+		
+		return this.getValorTotal().compareTo(BigDecimal.ZERO) < 0;
 	}
 }

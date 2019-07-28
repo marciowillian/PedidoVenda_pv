@@ -83,7 +83,7 @@ public class ProdutoRepository implements Serializable {
 		return manager.find(Produto.class, id);
 	}
 
-	public List<Produto> porNome(String nome) {
+	public List<Produto> porNome (String nome) {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Produto.class);
 		
