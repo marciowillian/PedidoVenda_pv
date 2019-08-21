@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.mwcc.pedidovenda.service.NegocioException;
 import com.mwcc.pedidovenda.validation.SKU;
 
 
@@ -120,6 +121,17 @@ public class Produto implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void baixarEstoque(Integer quantidade) {
+		int novaQuantidade = this.getQuantidadeEstoque() - quantidade;
+		
+		if(novaQuantidade < 0) {
+			throw new NegocioException("Não há disponibilidade no estoque de "
+					+ quantidade + " itens do produto " + this.getSku() + ".");
+		}
+		
+		this.setQuantidadeEstoque(novaQuantidade);
 	}
 
 }

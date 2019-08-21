@@ -5,8 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-	<p:dataTable value="#{cadastroPedidoBean.pedido.itens}" var="item" rowIndexVar="linha"
-		id="tabelaItens" style="width: 100%"
+	<p:dataTable value="#{cadastroPedidoBean.pedido.itens}" var="item"
+		rowIndexVar="linha" id="tabelaItens" style="width: 100%"
 		emptyMessage="Nenhum item encontrado">
 		<p:column headerText="SKU" style="text-align: center; width: 100px">
 			<h:outputText value="#{item.produto.sku}"
@@ -55,7 +55,16 @@
 
 		<p:column headerText="Estoque"
 			style="text-align: center; width: 100px">
-			<h:outputText value="#{item.produto.quantidadeEstoque}" />
+			<h:outputText value="#{item.produto.quantidadeEstoque}"
+				style="#{item.estoqueInsuficiente ? 'color: red' : ''}" />
+
+			<h:graphicImage library="images" name="alerta.png" id="semEstoque"
+				rendered="#{item.estoqueInsuficiente}"
+				style="vertical-align: bottom; margin-left: 5px" />
+
+			<p:tooltip for="semEstoque" value="Estoque insuficiente"
+				rendered="#{item.estoqueInsuficiente}" />
+
 		</p:column>
 
 		<p:column headerText="Valor total"
